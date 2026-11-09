@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collegamento account</title>
+<style>:root{--bg:#0E0F11;--ink:#E9EDF2;--muted:#9AA3AE;--accent:#E8FF3A;--field:#24272D}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;padding:16px}
+main{max-width:560px;width:100%}h1{font-size:24px;margin:0 0 8px}p{color:var(--muted)}
+code{display:block;background:var(--field);padding:14px;border-radius:8px;word-break:break-all;color:var(--accent);font:15px/1.4 ui-monospace,monospace;margin:12px 0}
+button{background:var(--accent);color:var(--bg);border:0;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}</style></head>
+<body><main>
+<h1>Collegamento account</h1>
+<p id="stato">Questa pagina riceve il codice di autorizzazione dopo il login e lo mostra solo a te: non lo invia a nessun server.</p>
+<code id="codice" hidden></code>
+<button id="copia" hidden>Copia il codice</button>
+<p id="dopo" hidden>Incollalo nel Terminale, dove lo script te lo chiede. Il codice scade in pochi minuti.</p>
+</main>
+<script>
+const q = new URLSearchParams(location.search);
+const c = q.get('code'), e = q.get('error');
+if (c) {
+  const el = document.getElementById('codice'); el.textContent = c; el.hidden = false;
+  document.getElementById('copia').hidden = false; document.getElementById('dopo').hidden = false;
+  document.getElementById('stato').textContent = 'Autorizzazione riuscita. Ecco il codice:';
+  document.getElementById('copia').onclick = () => navigator.clipboard.writeText(c);
+} else if (e) {
+  document.getElementById('stato').textContent = 'Autorizzazione non completata: ' + e;
+}
+</script>
+</body></html>
